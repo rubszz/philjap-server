@@ -20,11 +20,13 @@ The server initializes Firebase Admin SDK using a service account key file, sets
 ## Endpoints:
 
 - **GET /user/:userId/conversations:** Endpoint for retrieving a user's conversation history from Firestore.
-- **POST /signup:** Endpoint for user signup, which creates a new user with an email and password using Firebase Admin SDK.
 - **GET /user:** Endpoint for retrieving a user's first name from Firestore.
 - **POST /register:** Endpoint for user registration, which creates a new user and saves the user's profile information in Firestore.
 - **GET /getImage/:imageName:** Endpoint for retrieving a signed URL for a file stored in Firebase Cloud Storage.
 - **GET /test:** Test endpoint that returns a success message.
+- **GET /getProfile/:userId** Endpoint for getting the user's profile image url from firestore and returns the url as a response.
+- **GET /api/projects/:userId** Endpoint to get the projects data of the User and return all the data from firestore as a response.
+- **GET /api/projects/images/:projectId/:userId** Endpoint for getting all the users project image url from the firestore and returns the url string as a response.
 
 ## Server Startup:
 The server listens for connections on a specified port and logs a message to the console when it starts running.
