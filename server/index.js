@@ -110,8 +110,23 @@
       res.status(500).send({ message: 'Error getting user data' });
     }
   });
-  
 
+  
+  app.delete('/api/delete/:userId/:projectId', async (req, res) => {
+    try {
+      const { userId, projectId } = req.params;
+      console.log(`User ID: ${userId}, Project ID: ${projectId}`);
+      // Delete the project document
+      const projectRef = db.collection('projects').doc(userId).collection('project').doc(projectId);
+      await projectRef.delete();
+      console.log(`Deleted project document with ID: ${projectId}`);
+      res.sendStatus(200);
+    } catch (error) {
+      console.error('Error deleting project:', error);
+      res.status(500).send('Error deleting project');
+    }
+  });
+  
 
   /* This code defines an endpoint for user registration. When a POST request is made to the '/register'
   endpoint, the function retrieves the user's first name, last name, birthday, email, password, and
@@ -272,8 +287,23 @@
     }
   });
   
+  app.get('/api/users/:userId', async (req, res) => {
+    const { userId } = req.params;
   
+    try {
+      const userSnapshot = await db.collection('users').doc(userId).get();
+      const userData = userSnapshot.data();
   
+      if (!userData) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      return res.json(userData);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });  
   
 
   /* The code below is defining a route for a GET request to retrieve all users from a Firestore
